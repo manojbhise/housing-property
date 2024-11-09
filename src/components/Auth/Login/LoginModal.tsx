@@ -14,11 +14,11 @@ import { useStyles } from "./LoginModal.style";
 import EmailIcon from "@mui/icons-material/Email";
 import CloseIcon from "@mui/icons-material/Close";
 import {
+  IsFieldState,
+  ShowEmailField,
+  LoginModalProps,
   FieldTitlesState,
   InitialFormValues,
-  IsFieldState,
-  LoginModalProps,
-  ShowEmailField,
 } from "./LoginModal-Interface";
 import content from "../../../../mocks/LoginModal/loginmodal-mock.json";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -67,8 +67,7 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
     setSubmitting(false);
     setValues(initialFormValues);
     setIsField({
-      otp: false,
-      password: false,
+      ...isField,
       email: !isField.email,
       phoneNumber: !isField.phoneNumber,
     });

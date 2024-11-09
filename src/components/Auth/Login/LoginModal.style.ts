@@ -30,7 +30,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   subTitle: {
     fontWeight: 100,
     color: "#696C6A",
-    fontSize: theme.spacing(1.5),
+    marginTop: theme.spacing(1),
+    fontSize: theme.spacing(1.7),
   },
   textField: {
     width: "100%",
@@ -74,10 +75,10 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   showEmail: {
     display: "flex",
     fontWeight: 100,
-    color: "#696c6a",
+    color: "#696C6A",
     alignItems: "center",
     marginTop: theme.spacing(3),
-    fontSize: theme.spacing(1.5),
+    fontSize: theme.spacing(1.7),
   },
   highlightEmail: {
     color: "#0078db",

@@ -22,6 +22,7 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
     handleBlur,
     handleChange,
     isSubmitting,
+    setSubmitting,
   } = useFormikContext<InitialFormValues>();
 
   const fieldError = {
@@ -30,14 +31,34 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
     phoneNumber: touched.phoneNumber && Boolean(errors.phoneNumber),
   };
 
+  const isToggleField = {
+    isEmail: isField.email && !fieldError.email && values.email,
+    isPhone:
+      isField.phoneNumber && !fieldError.phoneNumber && values.phoneNumber,
+  };
+
+  const toggleEmailField = () => {
+    setIsField({
+      ...isField,
+      email: !isField.email,
+      password: !isField.password,
+    });
+  };
+  const togglePhoneField = () => {
+    setIsField({
+      ...isField,
+      otp: !isField.otp,
+      phoneNumber: !isField.phoneNumber,
+    });
+  };
+
   React.useEffect(() => {
-    if (isSubmitting && isField.email) {
-      setIsField({
-        otp: false,
-        email: false,
-        password: true,
-        phoneNumber: false,
-      });
+    if (isSubmitting) {
+      if (isToggleField.isEmail) {
+        toggleEmailField();
+      } else if (isToggleField.isPhone) {
+        togglePhoneField();
+      }
     }
   }, [isSubmitting]);
 
@@ -53,6 +74,9 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
     }
   };
 
+  console.log("isField", isField);
+  console.log("isSubmitting", isSubmitting);
+
   return (
     <React.Fragment>
       {Object.keys(isField).map((field) => showSubTitle(field))}
@@ -66,14 +90,10 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
             <EditIcon
               fontSize="small"
               className={classes.editIcon}
-              onClick={() =>
-                setIsField({
-                  otp: false,
-                  email: true,
-                  password: false,
-                  phoneNumber: false,
-                })
-              }
+              onClick={() => {
+                toggleEmailField();
+                setSubmitting(false);
+              }}
             />
           </Typography>
           <TextField
@@ -120,7 +140,19 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
           }}
         />
       ) : isField.otp ? (
-        <React.Fragment></React.Fragment>
+        <React.Fragment>
+          <Typography className={classes.showEmail}>
+            {values.phoneNumber}
+            <EditIcon
+              fontSize="small"
+              className={classes.editIcon}
+              onClick={() => {
+                togglePhoneField();
+                setSubmitting(false);
+              }}
+            />
+          </Typography>
+        </React.Fragment>
       ) : (
         <TextField
           name="phoneNumber"
@@ -142,91 +174,6 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
           }}
         />
       )}
-      {/* {isField.email ? (
-        <React.Fragment>
-          {!isSubmitting ? (
-            <React.Fragment>
-              <TextField
-                name="email"
-                label="Email Id/Username"
-                onBlur={handleBlur}
-                value={values.email}
-                onChange={handleChange}
-                className={classes.textField}
-                error={fieldError.email}
-                helperText={
-                  fieldError.email ? (
-                    <ErrorLabel errorLabel={String(errors.email)} />
-                  ) : null
-                }
-                slotProps={{
-                  formHelperText: {
-                    sx: { marginLeft: 0 },
-                  },
-                }}
-              />
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Typography className={classes.showEmail}>
-                Your Password for
-                <Typography className={classes.highlightEmail}>
-                  {values.email}
-                </Typography>
-                <EditIcon
-                  fontSize="small"
-                  className={classes.editIcon}
-                  onClick={() => setSubmitting(false)}
-                />
-              </Typography>
-              <TextField
-                name="password"
-                label="Password"
-                onBlur={handleBlur}
-                value={values.password}
-                onChange={handleChange}
-                error={fieldError.password}
-                className={classes.passwordField}
-                helperText={
-                  fieldError.password ? (
-                    <ErrorLabel errorLabel={String(errors.password)} />
-                  ) : null
-                }
-                slotProps={{
-                  formHelperText: {
-                    sx: { marginLeft: 0 },
-                  },
-                }}
-              />
-              <Typography className={classes.forgotPass}>
-                Forgot Password
-              </Typography>
-            </React.Fragment>
-          )}
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <TextField
-            name="phoneNumber"
-            label="Phone Number"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            value={values.phoneNumber}
-            className={classes.textField}
-            error={fieldError.phoneNumber}
-            helperText={
-              fieldError.phoneNumber ? (
-                <ErrorLabel errorLabel={String(errors.phoneNumber)} />
-              ) : null
-            }
-            slotProps={{
-              formHelperText: {
-                sx: { marginLeft: 0 },
-              },
-            }}
-          />
-        </React.Fragment>
-      )} */}
     </React.Fragment>
   );
 };
