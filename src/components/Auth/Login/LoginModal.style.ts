@@ -6,25 +6,25 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     margin: "auto",
     display: "flex",
     alignItems: "center",
-    width: theme.spacing(53),
+    width: theme.spacing(51),
   },
   loginContainer: {
     width: "100%",
     backgroundColor: "#FFFFFF",
-    paddingTop: theme.spacing(1.5),
-    paddingBottom: theme.spacing(3),
-    borderRadius: theme.spacing(1.1),
+    padding: theme.spacing(2.5),
+    borderRadius: theme.spacing(1),
+  },
+  loginForm: {
+    // border: "1px solid",
   },
   closeIcon: {
     display: "flex",
+    // border: "1px solid",
     justifyContent: "right",
-    paddingRight: theme.spacing(2),
-  },
-  loginForm: {
-    padding: `0 ${theme.spacing(3)}`,
   },
   backSpaceIcon: {
     cursor: "pointer",
+    // border: "1px solid",
     marginBottom: theme.spacing(1),
   },
   title: {
@@ -50,7 +50,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     height: theme.spacing(6.5),
     fontSize: theme.spacing(2),
     marginTop: theme.spacing(10),
-    borderRadius: theme.spacing(1.1),
+    borderRadius: theme.spacing(0.6),
   },
   or: {
     display: "flex",
@@ -66,9 +66,32 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     fontSize: theme.spacing(2),
     backgroundColor: "#FFFFFF",
     border: "1px solid #AAAAAA",
-    borderRadius: theme.spacing(1.1),
+    borderRadius: theme.spacing(0.6),
   },
   emailIcon: {
     marginRight: theme.spacing(1),
+  },
+  editIcon: {
+    color: "blue",
+    cursor: "pointer",
+  },
+  showEmail: {
+    display: "flex",
+    fontWeight: 100,
+    color: "#696c6a",
+    alignItems: "center",
+    marginTop: theme.spacing(3),
+    fontSize: theme.spacing(1.5),
+    // border: "1px solid",
+  },
+  highlightEmail: {
+    color: "blue",
+    fontWeight: "bold",
+    marginLeft: theme.spacing(0.5),
+    marginRight: theme.spacing(0.5),
+  },
+  passwordField: {
+    width: "100%",
+    marginTop: theme.spacing(0.5),
   },
 }));

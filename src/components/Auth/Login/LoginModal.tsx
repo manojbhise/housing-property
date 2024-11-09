@@ -5,7 +5,6 @@ import {
   Grid2,
   IconButton,
   Modal,
-  TextField,
   Typography,
 } from "@mui/material";
 import * as Yup from "yup";
@@ -13,13 +12,13 @@ import { Form, Formik } from "formik";
 import { useStyles } from "./LoginModal.style";
 import EmailIcon from "@mui/icons-material/Email";
 import CloseIcon from "@mui/icons-material/Close";
-import ErrorLabel from "../../ErrorLabel/ErrorLabel";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
   InitialFormValues,
   LoginModalProps,
   ShowEmailField,
 } from "./LoginModal-Interface";
+import Authentication from "./Authentication";
 
 const LoginModal = ({ open, onClose }: LoginModalProps) => {
   const { classes } = useStyles();
@@ -31,6 +30,13 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
       .test("email-validation", "Email is required", function () {
         const { phoneNumber, email } = this.parent;
         if (!phoneNumber && !email) return false;
+        return true;
+      }),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters long")
+      .test("password-validation", "Password is required", function () {
+        const { email, password } = this.parent;
+        if (!email && !password) return false;
         return true;
       }),
     phoneNumber: Yup.string()
@@ -45,6 +51,7 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
 
   const initialFormValues: InitialFormValues = {
     email: "",
+    password: "",
     phoneNumber: "",
   };
 
@@ -52,20 +59,29 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
     console.log(values);
   };
 
-  const showEmailField: ShowEmailField = (setTouched, setValues) => {
+  const onModalClose = () => {
+    onClose();
+    setIsEmailField(false);
+  };
+
+  const showEmailField: ShowEmailField = (
+    setTouched,
+    setValues,
+    setSubmitting
+  ) => {
+    setSubmitting(false);
     setValues(initialFormValues);
     setIsEmailField(!isEmailField);
-    setTouched({ phoneNumber: false, email: false });
+    setTouched({ phoneNumber: false, email: false, password: false });
   };
 
   return (
-    <Modal open={open} onClose={onClose} className={classes.modalContainer}>
+    <Modal
+      open={open}
+      onClose={onModalClose}
+      className={classes.modalContainer}
+    >
       <Box className={classes.loginContainer}>
-        <Grid2 className={classes.closeIcon}>
-          <IconButton aria-label="close" onClick={onClose}>
-            <CloseIcon sx={{ padding: 0, margin: 0 }} />
-          </IconButton>
-        </Grid2>
         <Formik
           validateOnBlur
           validateOnChange
@@ -74,78 +90,45 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {({
-            values,
-            touched,
-            errors,
-            handleChange,
-            handleBlur,
-            setTouched,
-            setValues,
-          }) => (
-            <Form>
-              <Box className={classes.loginForm}>
-                {isEmailField && (
+          {({ values, setTouched, isSubmitting, setValues, setSubmitting }) => (
+            <Form className={classes.loginForm}>
+              <Grid2 className={classes.closeIcon}>
+                <IconButton
+                  aria-label="close"
+                  sx={{ padding: 0.3 }}
+                  onClick={onModalClose}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Grid2>
+              {isEmailField && isSubmitting ? (
+                <Typography className={classes.title}>
+                  Enter Password
+                </Typography>
+              ) : (
+                <React.Fragment>
                   <KeyboardBackspaceIcon
                     className={classes.backSpaceIcon}
-                    onClick={() => showEmailField(setTouched, setValues)}
-                  />
-                )}
-                <Typography className={classes.title}>
-                  Login / Register
-                </Typography>
-                <Typography className={classes.subTitle}>
-                  {isEmailField
-                    ? "Please enter your Email ID/Username"
-                    : "Please enter your Phone Number"}
-                </Typography>
-                {isEmailField ? (
-                  <TextField
-                    name="email"
-                    label="Email Id/Username"
-                    onBlur={handleBlur}
-                    value={values.email}
-                    onChange={handleChange}
-                    className={classes.textField}
-                    error={touched.email && Boolean(errors.email)}
-                    helperText={
-                      touched.email &&
-                      Boolean(errors.email) && (
-                        <ErrorLabel errorLabel={String(errors.email)} />
-                      )
+                    onClick={() =>
+                      showEmailField(setTouched, setValues, setSubmitting)
                     }
-                    slotProps={{
-                      formHelperText: {
-                        sx: { marginLeft: 0 },
-                      },
-                    }}
                   />
-                ) : (
-                  <TextField
-                    name="phoneNumber"
-                    label="Phone Number"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.phoneNumber}
-                    className={classes.textField}
-                    error={touched.phoneNumber && Boolean(errors.phoneNumber)}
-                    helperText={
-                      touched.phoneNumber &&
-                      Boolean(errors.phoneNumber) && (
-                        <ErrorLabel errorLabel={String(errors.phoneNumber)} />
-                      )
-                    }
-                    slotProps={{
-                      formHelperText: {
-                        sx: { marginLeft: 0 },
-                      },
-                    }}
-                  />
-                )}
-                <Button type="submit" className={classes.continueBtn}>
-                  Continue
-                </Button>
-                {!isEmailField && (
+                  <Typography className={classes.title}>
+                    Login / Register
+                  </Typography>
+                </React.Fragment>
+              )}
+
+              <Authentication isEmailField={isEmailField} />
+              <Button
+                type="submit"
+                className={classes.continueBtn}
+                disabled={isEmailField ? !values.email : !values.phoneNumber}
+              >
+                Continue
+              </Button>
+              {!isEmailField && (
+                <React.Fragment>
                   <Box sx={{ my: 2 }} className={classes.or}>
                     <Box flex={1} height="1px" bgcolor="#A8A9AC" />
                     <Typography variant="body1" sx={{ mx: 2 }}>
@@ -153,17 +136,17 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
                     </Typography>
                     <Box flex={1} height="1px" bgcolor="#A8A9AC" />
                   </Box>
-                )}
-                {!isEmailField && (
                   <Button
                     className={classes.continueWithEmail}
-                    onClick={() => showEmailField(setTouched, setValues)}
+                    onClick={() =>
+                      showEmailField(setTouched, setValues, setSubmitting)
+                    }
                   >
                     <EmailIcon className={classes.emailIcon} />
                     Continue with Email/Username
                   </Button>
-                )}
-              </Box>
+                </React.Fragment>
+              )}
             </Form>
           )}
         </Formik>
