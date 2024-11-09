@@ -1,0 +1,18 @@
+{
+  "data": {
+    "fields": {
+      "otp": false,
+      "email": false,
+      "password": false,
+      "phoneNumber": true
+    },
+    "fieldTitles": {
+      "phoneNumber": "Login / Register",
+      "otp": "Verify your number",
+      "email": "Login / Register",
+      "password": "Enter Password",
+      "phoneNumber_subTitle": "Please enter your Phone Number",
+      "email_subTitle": "Please enter your Email ID/Username"
+    }
+  }
+}

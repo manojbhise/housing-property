@@ -4,10 +4,17 @@ import { useStyles } from "./LoginModal.style";
 import EditIcon from "@mui/icons-material/Edit";
 import ErrorLabel from "../../ErrorLabel/ErrorLabel";
 import { TextField, Typography } from "@mui/material";
-import { AuthenticationProps, InitialFormValues } from "./LoginModal-Interface";
+import content from "../../../../mocks/LoginModal/loginmodal-mock.json";
+import {
+  AuthenticationProps,
+  FieldTitlesState,
+  InitialFormValues,
+  IsFieldState,
+} from "./LoginModal-Interface";
 
-const Authentication = ({ isEmailField }: AuthenticationProps) => {
+const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
   const { classes } = useStyles();
+  const { fieldTitles } = content.data;
   const {
     values,
     errors,
@@ -24,18 +31,122 @@ const Authentication = ({ isEmailField }: AuthenticationProps) => {
     phoneNumber: touched.phoneNumber && Boolean(errors.phoneNumber),
   };
 
-  console.log(values, errors, touched);
-  console.log("isSubmitting:", isSubmitting);
+  React.useEffect(() => {
+    if (isSubmitting && isField.email) {
+      setIsField({
+        otp: false,
+        email: false,
+        password: true,
+        phoneNumber: false,
+      });
+    }
+  }, [isSubmitting]);
+
+  const showSubTitle = (field: string) => {
+    const subTitle = fieldTitles[`${field}_subTitle` as keyof FieldTitlesState];
+    const showSubTitle = isField[field as keyof IsFieldState] && subTitle;
+    if (showSubTitle) {
+      return (
+        <Typography key={field} className={classes.subTitle}>
+          {subTitle}
+        </Typography>
+      );
+    }
+  };
 
   return (
     <React.Fragment>
-      {isEmailField ? (
+      {Object.keys(isField).map((field) => showSubTitle(field))}
+      {isField.password ? (
+        <React.Fragment>
+          <Typography className={classes.showEmail}>
+            Your Password for
+            <Typography className={classes.highlightEmail}>
+              {values.email}
+            </Typography>
+            <EditIcon
+              fontSize="small"
+              className={classes.editIcon}
+              onClick={() =>
+                setIsField({
+                  otp: false,
+                  email: true,
+                  password: false,
+                  phoneNumber: false,
+                })
+              }
+            />
+          </Typography>
+          <TextField
+            name="password"
+            label="Password"
+            onBlur={handleBlur}
+            value={values.password}
+            onChange={handleChange}
+            error={fieldError.password}
+            className={classes.passwordField}
+            helperText={
+              fieldError.password ? (
+                <ErrorLabel errorLabel={String(errors.password)} />
+              ) : null
+            }
+            slotProps={{
+              formHelperText: {
+                sx: { marginLeft: 0 },
+              },
+            }}
+          />
+          <Typography className={classes.forgotPass}>
+            Forgot Password
+          </Typography>
+        </React.Fragment>
+      ) : isField.email ? (
+        <TextField
+          name="email"
+          label="Email Id/Username"
+          onBlur={handleBlur}
+          value={values.email}
+          onChange={handleChange}
+          className={classes.textField}
+          error={fieldError.email}
+          helperText={
+            fieldError.email ? (
+              <ErrorLabel errorLabel={String(errors.email)} />
+            ) : null
+          }
+          slotProps={{
+            formHelperText: {
+              sx: { marginLeft: 0 },
+            },
+          }}
+        />
+      ) : isField.otp ? (
+        <React.Fragment></React.Fragment>
+      ) : (
+        <TextField
+          name="phoneNumber"
+          label="Phone Number"
+          onBlur={handleBlur}
+          onChange={handleChange}
+          value={values.phoneNumber}
+          className={classes.textField}
+          error={fieldError.phoneNumber}
+          helperText={
+            fieldError.phoneNumber ? (
+              <ErrorLabel errorLabel={String(errors.phoneNumber)} />
+            ) : null
+          }
+          slotProps={{
+            formHelperText: {
+              sx: { marginLeft: 0 },
+            },
+          }}
+        />
+      )}
+      {/* {isField.email ? (
         <React.Fragment>
           {!isSubmitting ? (
             <React.Fragment>
-              <Typography className={classes.subTitle}>
-                Please enter your Email ID/Username
-              </Typography>
               <TextField
                 name="email"
                 label="Email Id/Username"
@@ -88,14 +199,14 @@ const Authentication = ({ isEmailField }: AuthenticationProps) => {
                   },
                 }}
               />
+              <Typography className={classes.forgotPass}>
+                Forgot Password
+              </Typography>
             </React.Fragment>
           )}
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography className={classes.subTitle}>
-            Please enter your Phone Number
-          </Typography>
           <TextField
             name="phoneNumber"
             label="Phone Number"
@@ -116,7 +227,7 @@ const Authentication = ({ isEmailField }: AuthenticationProps) => {
             }}
           />
         </React.Fragment>
-      )}
+      )} */}
     </React.Fragment>
   );
 };

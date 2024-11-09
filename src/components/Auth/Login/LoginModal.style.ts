@@ -14,17 +14,13 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     padding: theme.spacing(2.5),
     borderRadius: theme.spacing(1),
   },
-  loginForm: {
-    // border: "1px solid",
-  },
+  loginForm: {},
   closeIcon: {
     display: "flex",
-    // border: "1px solid",
     justifyContent: "right",
   },
   backSpaceIcon: {
     cursor: "pointer",
-    // border: "1px solid",
     marginBottom: theme.spacing(1),
   },
   title: {
@@ -33,7 +29,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   subTitle: {
     fontWeight: 100,
-    color: "#696c6a",
+    color: "#696C6A",
     fontSize: theme.spacing(1.5),
   },
   textField: {
@@ -72,7 +68,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     marginRight: theme.spacing(1),
   },
   editIcon: {
-    color: "blue",
+    color: "#0078db",
     cursor: "pointer",
   },
   showEmail: {
@@ -82,16 +78,22 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     alignItems: "center",
     marginTop: theme.spacing(3),
     fontSize: theme.spacing(1.5),
-    // border: "1px solid",
   },
   highlightEmail: {
-    color: "blue",
+    color: "#0078db",
     fontWeight: "bold",
     marginLeft: theme.spacing(0.5),
     marginRight: theme.spacing(0.5),
   },
   passwordField: {
     width: "100%",
-    marginTop: theme.spacing(0.5),
+    marginTop: theme.spacing(1),
+  },
+  forgotPass: {
+    color: "#0078db",
+    cursor: "pointer",
+    textAlign: "right",
+    fontWeight: "bold",
+    marginTop: theme.spacing(1),
   },
 }));

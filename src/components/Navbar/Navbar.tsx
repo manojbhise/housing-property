@@ -20,7 +20,7 @@ const Navbar = () => {
       <Typography onClick={openLoginModal} className={classes.login}>
         Login
       </Typography>
-      <LoginModal open={showModal} onClose={closeLoginModal} />
+      {showModal && <LoginModal open={showModal} onClose={closeLoginModal} />}
     </AppBar>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -9,20 +9,24 @@ import {
 } from "@mui/material";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
+import Authentication from "./Authentication";
 import { useStyles } from "./LoginModal.style";
 import EmailIcon from "@mui/icons-material/Email";
 import CloseIcon from "@mui/icons-material/Close";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import {
+  FieldTitlesState,
   InitialFormValues,
+  IsFieldState,
   LoginModalProps,
   ShowEmailField,
 } from "./LoginModal-Interface";
-import Authentication from "./Authentication";
+import content from "../../../../mocks/LoginModal/loginmodal-mock.json";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const LoginModal = ({ open, onClose }: LoginModalProps) => {
   const { classes } = useStyles();
-  const [isEmailField, setIsEmailField] = React.useState(false);
+  const { fields, fieldTitles } = content.data;
+  const [isField, setIsField] = useState<IsFieldState>(fields);
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -35,8 +39,8 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
     password: Yup.string()
       .min(6, "Password must be at least 6 characters long")
       .test("password-validation", "Password is required", function () {
-        const { email, password } = this.parent;
-        if (!email && !password) return false;
+        const { password } = this.parent;
+        if (isField.password && !password) return false;
         return true;
       }),
     phoneNumber: Yup.string()
@@ -55,15 +59,6 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
     phoneNumber: "",
   };
 
-  const handleSubmit = (values: InitialFormValues) => {
-    console.log(values);
-  };
-
-  const onModalClose = () => {
-    onClose();
-    setIsEmailField(false);
-  };
-
   const showEmailField: ShowEmailField = (
     setTouched,
     setValues,
@@ -71,16 +66,21 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
   ) => {
     setSubmitting(false);
     setValues(initialFormValues);
-    setIsEmailField(!isEmailField);
+    setIsField({
+      otp: false,
+      password: false,
+      email: !isField.email,
+      phoneNumber: !isField.phoneNumber,
+    });
     setTouched({ phoneNumber: false, email: false, password: false });
   };
 
+  const handleSubmit = (values: InitialFormValues) => {
+    console.log(values);
+  };
+
   return (
-    <Modal
-      open={open}
-      onClose={onModalClose}
-      className={classes.modalContainer}
-    >
+    <Modal open={open} onClose={onClose} className={classes.modalContainer}>
       <Box className={classes.loginContainer}>
         <Formik
           validateOnBlur
@@ -90,44 +90,39 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {({ values, setTouched, isSubmitting, setValues, setSubmitting }) => (
+          {({ setTouched, setValues, setSubmitting }) => (
             <Form className={classes.loginForm}>
               <Grid2 className={classes.closeIcon}>
                 <IconButton
                   aria-label="close"
+                  onClick={onClose}
                   sx={{ padding: 0.3 }}
-                  onClick={onModalClose}
                 >
                   <CloseIcon />
                 </IconButton>
               </Grid2>
-              {isEmailField && isSubmitting ? (
-                <Typography className={classes.title}>
-                  Enter Password
-                </Typography>
-              ) : (
-                <React.Fragment>
-                  <KeyboardBackspaceIcon
-                    className={classes.backSpaceIcon}
-                    onClick={() =>
-                      showEmailField(setTouched, setValues, setSubmitting)
-                    }
-                  />
-                  <Typography className={classes.title}>
-                    Login / Register
-                  </Typography>
-                </React.Fragment>
+              {isField.email && (
+                <KeyboardBackspaceIcon
+                  className={classes.backSpaceIcon}
+                  onClick={() =>
+                    showEmailField(setTouched, setValues, setSubmitting)
+                  }
+                />
               )}
-
-              <Authentication isEmailField={isEmailField} />
-              <Button
-                type="submit"
-                className={classes.continueBtn}
-                disabled={isEmailField ? !values.email : !values.phoneNumber}
-              >
+              {Object.keys(isField).map((field) => {
+                if (isField[field as keyof IsFieldState]) {
+                  return (
+                    <Typography key={field} className={classes.title}>
+                      {fieldTitles[field as keyof FieldTitlesState]}
+                    </Typography>
+                  );
+                }
+              })}
+              <Authentication isField={isField} setIsField={setIsField} />
+              <Button type="submit" className={classes.continueBtn}>
                 Continue
               </Button>
-              {!isEmailField && (
+              {isField.phoneNumber && (
                 <React.Fragment>
                   <Box sx={{ my: 2 }} className={classes.or}>
                     <Box flex={1} height="1px" bgcolor="#A8A9AC" />
