@@ -22,7 +22,6 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
     handleBlur,
     handleChange,
     isSubmitting,
-    setSubmitting,
   } = useFormikContext<InitialFormValues>();
 
   const fieldError = {
