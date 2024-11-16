@@ -124,11 +124,11 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
               {isField.phoneNumber && (
                 <React.Fragment>
                   <Box sx={{ my: 2 }} className={classes.or}>
-                    <Box flex={1} height="1px" bgcolor="#A8A9AC" />
+                    <Box flex={1} height="1px" bgcolor="#d5d7d9" />
                     <Typography variant="body1" sx={{ mx: 2 }}>
                       Or
                     </Typography>
-                    <Box flex={1} height="1px" bgcolor="#A8A9AC" />
+                    <Box flex={1} height="1px" bgcolor="#d5d7d9" />
                   </Box>
                   <Button
                     className={classes.continueWithEmail}

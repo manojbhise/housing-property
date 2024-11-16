@@ -13,6 +13,208 @@
       "password": "Enter Password",
       "phoneNumber_subTitle": "Please enter your Phone Number",
       "email_subTitle": "Please enter your Email ID/Username"
-    }
+    },
+    "countryCodes": [
+      {
+        "code": "India",
+        "value": "+91"
+      },
+      {
+        "code": "United States",
+        "value": "+1"
+      },
+      {
+        "code": "United Kingdom",
+        "value": "+44"
+      },
+      {
+        "code": "Australia",
+        "value": "+61"
+      },
+      {
+        "code": "Canada",
+        "value": "+1"
+      },
+      {
+        "code": "Germany",
+        "value": "+49"
+      },
+      {
+        "code": "France",
+        "value": "+33"
+      },
+      {
+        "code": "Japan",
+        "value": "+81"
+      },
+      {
+        "code": "China",
+        "value": "+86"
+      },
+      {
+        "code": "South Africa",
+        "value": "+27"
+      },
+      {
+        "code": "Russia",
+        "value": "+7"
+      },
+      {
+        "code": "Brazil",
+        "value": "+55"
+      },
+      {
+        "code": "Mexico",
+        "value": "+52"
+      },
+      {
+        "code": "Italy",
+        "value": "+39"
+      },
+      {
+        "code": "Spain",
+        "value": "+34"
+      },
+      {
+        "code": "Saudi Arabia",
+        "value": "+966"
+      },
+      {
+        "code": "Pakistan",
+        "value": "+92"
+      },
+      {
+        "code": "Bangladesh",
+        "value": "+880"
+      },
+      {
+        "code": "Sri Lanka",
+        "value": "+94"
+      },
+      {
+        "code": "Nepal",
+        "value": "+977"
+      },
+      {
+        "code": "Egypt",
+        "value": "+20"
+      },
+      {
+        "code": "Thailand",
+        "value": "+66"
+      },
+      {
+        "code": "Singapore",
+        "value": "+65"
+      },
+      {
+        "code": "Malaysia",
+        "value": "+60"
+      },
+      {
+        "code": "Indonesia",
+        "value": "+62"
+      },
+      {
+        "code": "Philippines",
+        "value": "+63"
+      },
+      {
+        "code": "Vietnam",
+        "value": "+84"
+      },
+      {
+        "code": "Turkey",
+        "value": "+90"
+      },
+      {
+        "code": "Israel",
+        "value": "+972"
+      },
+      {
+        "code": "United Arab Emirates",
+        "value": "+971"
+      },
+      {
+        "code": "Kuwait",
+        "value": "+965"
+      },
+      {
+        "code": "Qatar",
+        "value": "+974"
+      },
+      {
+        "code": "Oman",
+        "value": "+968"
+      },
+      {
+        "code": "Jordan",
+        "value": "+962"
+      },
+      {
+        "code": "Iraq",
+        "value": "+964"
+      },
+      {
+        "code": "Iran",
+        "value": "+98"
+      },
+      {
+        "code": "South Korea",
+        "value": "+82"
+      },
+      {
+        "code": "Hong Kong",
+        "value": "+852"
+      },
+      {
+        "code": "Taiwan",
+        "value": "+886"
+      },
+      {
+        "code": "New Zealand",
+        "value": "+64"
+      },
+      {
+        "code": "Pakistan",
+        "value": "+92"
+      },
+      {
+        "code": "Nigeria",
+        "value": "+234"
+      },
+      {
+        "code": "Kenya",
+        "value": "+254"
+      },
+      {
+        "code": "Uganda",
+        "value": "+256"
+      },
+      {
+        "code": "Ghana",
+        "value": "+233"
+      },
+      {
+        "code": "Angola",
+        "value": "+244"
+      },
+      {
+        "code": "Tanzania",
+        "value": "+255"
+      },
+      {
+        "code": "Zimbabwe",
+        "value": "+263"
+      },
+      {
+        "code": "Kenya",
+        "value": "+254"
+      },
+      {
+        "code": "Morocco",
+        "value": "+212"
+      }
+    ]
   }
 }

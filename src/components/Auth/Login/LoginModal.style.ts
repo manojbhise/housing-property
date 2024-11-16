@@ -50,6 +50,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     borderRadius: theme.spacing(0.6),
   },
   or: {
+    color: "#A3ABB8",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -62,7 +63,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     height: theme.spacing(6.5),
     fontSize: theme.spacing(2),
     backgroundColor: "#FFFFFF",
-    border: "1px solid #AAAAAA",
+    border: "1px solid #CDCACA",
     borderRadius: theme.spacing(0.6),
   },
   emailIcon: {

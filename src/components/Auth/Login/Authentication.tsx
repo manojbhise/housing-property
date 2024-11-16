@@ -74,9 +74,6 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
     }
   };
 
-  console.log("isField", isField);
-  console.log("isSubmitting", isSubmitting);
-
   return (
     <React.Fragment>
       {Object.keys(isField).map((field) => showSubTitle(field))}
@@ -141,7 +138,7 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
         />
       ) : isField.otp ? (
         <React.Fragment>
-          <Typography className={classes.showEmail}>
+          <Typography className={classes.title}>
             {values.phoneNumber}
             <EditIcon
               fontSize="small"
@@ -152,6 +149,7 @@ const Authentication = ({ isField, setIsField }: AuthenticationProps) => {
               }}
             />
           </Typography>
+          <Typography>Enter your 4 digit OTP</Typography>
         </React.Fragment>
       ) : (
         <TextField
